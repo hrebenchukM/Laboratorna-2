@@ -5,10 +5,10 @@ using namespace std;
 
 int main() {
 
-	DATA DATA1(10, 12, 2022);
+	DATA DATA1(10, 1, 2023);
 	cout << "Date 1)"<<endl;
 	DATA1.Output();
-	DATA DATA2(1, 1, 2023);
+	DATA DATA2(31, 11, 2023);
 	cout << "Date 2)"<<endl;
 	DATA2.Output();
 
@@ -68,6 +68,15 @@ int main() {
 	{
 		cout << "Date 1) < Date 2)" << endl;
 	}
+	else if (DATA1 == DATA2)
+	{
+		cout << "Date 1) == Date 2)" << endl;
+	}
+	else if (DATA1 != DATA2)
+	{
+		cout << "Date 1) != Date 2)" << endl;
+	}
+
 	else if (DATA1 >= DATA2)
 	{
 		cout << "Date 1) >= Date 2)" << endl;

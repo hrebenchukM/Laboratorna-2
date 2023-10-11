@@ -59,236 +59,235 @@ void DATA::SetYear(int y)
 
 DATA& DATA::operator++()
 {
-	if (month % 2 == 0 && month != 2)
-	{
-		if (day > 0 && day <= 29)
-		{
-			day += 1;
+	day++;
+	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+		day = 1;
+		month++;
+	}
+	else if (month == 2) {
+		
+		if (month == 2 &&day > 28) {
+			day = 1;
+			month++;
 		}
 	}
-	else if (month % 2 != 0 && month != 2)
-	{
-		if (day > 0 && day <= 30)
-		{
-			day += 1;
-		}
+	else if (day > 31) {
+		day = 1;
+		month++;
 	}
-	if (month == 2)
-	{
-		if (day > 0 && day <= 28)
-		{
-			day += 1;
-		}
+
+	if (month > 12) {
+		month = 1;
+		year++;
 	}
-	
+
 	return *this;
 }
+
+
 
 DATA& DATA::operator--()
 {
 
-	if (month % 2 == 0 && month != 2)
-	{
-		if (day > 1 && day <= 30)
-		{
-			day -= 1;
+     	if (day == 1) {
+			//февраль дней
+			if (month == 2) {
+				
+				day = 28;
+			}
+			// ћес€цы с  днем
+			else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+	
+				day = 31;
+			}
+			// ћес€цы с остальн≥ми  дн€ми
+			else {
+				
+				day = 30;
+			}
+
+			if (month > 1) {
+				month--;
+			}
+			else {
+				month = 12;
+				year--;
+			}
 		}
-	}
-	else if (month % 2 != 0 && month != 2)
-	{
-		if (day > 1 && day <= 31)
-		{
-			day -= 1;
+		else {
+			day--;
 		}
-	}
-	if (month == 2)
-	{
-		if (day > 1 && day <= 29)
-		{
-			day -= 1;
-		}
-	}
-	return *this;
+
+		return *this;
 
 }
 
+
 DATA& DATA::operator++(int)
 {
-	DATA temp(day, month, year);
-	if (month % 2 == 0 && month != 2)
-	{
-		if (day > 0 && day <= 29)
-		{
-			day += 1;
+		DATA temp(day, month, year);
+
+		day++;
+		if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+			day = 1;
+			month++;
 		}
-	}
-	else if (month % 2 != 0 && month != 2)
-	{
-		if (day > 0 && day <= 30)
-		{
-			day += 1;
+		else if (month == 2) {
+			if (day > 28) {
+				day = 1;
+				month++;
+			}
 		}
-	}
-	if (month == 2)
-	{
-		if (day > 0 && day <= 28)
-		{
-			day += 1;
+		else if (day > 31) {
+			day = 1;
+			month++;
 		}
-	}
-	return temp;
+
+		if (month > 12) {
+			month = 1;
+			year++;
+		}
+
+		return temp;
+
 }
 
 DATA& DATA::operator--(int)
 {
-	DATA temp(day, month,year);
-	if (month % 2 == 0 && month != 2)
-	{
-		if (day > 1 && day <= 30)
-		{
-			day -= 1;
+	DATA temp(day, month, year);
+
+	if (day == 1) {
+
+		if (month == 2) {
+			// февраль  
+			day = 28;
+		}
+		// ћес€цы с днем
+		else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+			
+			day = 31;
+		}
+		// ћес€цы с остальн≥ми дн€ми
+		else {
+			
+			day = 30;
+		}
+
+		if (month > 1) {
+			month--;
+		}
+		else {
+			month = 12;
+			year--;
 		}
 	}
-	else if (month % 2 != 0 && month != 2)
-	{
-		if (day > 1 && day <= 31)
-		{
-			day -= 1;
-		}
+	else {
+		day--;
 	}
-	if (month == 2)
-	{
-		if (day > 1 && day <= 29)
-		{
-			day -= 1;
-		}
-	}
-	return temp;
-	
+
+    return temp;
 }
 
 DATA DATA::operator-(int n)
 {
+	DATA temp(day, month, year);
+
 	
-	DATA temp = *this;
-	if (temp.day > n)
-	{
-		temp.day = temp.day - n;
-	}
-	else {
-		if (temp.month == 1)
-		{
-			temp.year--;
-			temp.month = 12;
+		if (temp.day > 1) {
+			temp.day--;
+			n--;
 		}
-		else
-		{
-			temp.month--;
+		else {
+			if (temp.month == 1) {
+				temp.month = 12;
+				temp.year--;
+			}
+			else {
+				temp.month--;
+			}
+
+			if (temp.month == 2) {
+				temp.day = 28;
+			}
+			else if (temp.month == 4 || temp.month == 6 || temp.month == 9 || temp.month == 11) {
+				temp.day = 30;
+			}
+			else {
+				temp.day = 31;
+			}
 		}
 	
-	}
+
 	return temp;
+	
 }
 
 DATA DATA::operator+(int n)
 {
-	DATA temp = *this;
-	int NDaysInMonth = 31;
+	
+		DATA temp(day, month, year);
 
-	if (temp.month == 4 || temp.month == 6 || temp.month == 9 || temp.month == 11)
-	{
-		NDaysInMonth = 30;
-	}
-	else if (temp.month == 2)
-	{
-		NDaysInMonth = 28;
-	}
+		temp.day += n;
 
+		while (temp.day > 31) {
+			if ((temp.month == 4 || temp.month == 6 || temp.month == 9 || temp.month == 11) && temp.day > 30) {
+				temp.day -= 30;
+				temp.month++;
+			}
+			else if (temp.month == 2) {
+				if (temp.day > 28) {
+					temp.day -= 28;
+					temp.month++;
+				}
+			}
+			else {
+				temp.day -= 31;
+				temp.month++;
+			}
 
-	if (temp.day + n <= NDaysInMonth)
-	{
-		temp.day = temp.day + n;
-	}
-	else {
-
-		temp.day = 1;
-		if (temp.month == 12)
-		{
-			temp.month = 1;
-			temp.year++;
+			if (temp.month > 12) {
+				temp.month = 1;
+				temp.year++;
+			}
 		}
-		else
-		{
-			temp.month++;
-		}
-	}
 
-	return temp;
+		return temp;
 }
 
 DATA& DATA::operator-(DATA d2)
 {
-	DATA temp = *this;
-	if (temp.year > d2.year)
-	{
-		temp.year = temp.year - d2.year;
-	}
-	else {
-		if (temp.month > d2.month)
-		{
-			temp.month = temp.month - d2.month;
-
-		}
-		else {
-			if (temp.day > d2.day)
-			{
-				temp.day = temp.day - d2.day;
-			}
-		}
-	}
-			
-	if (temp.year < d2.year)
-	{
-		temp.year = d2.year- temp.year;
-	}
-	else {
-		if (temp.month < d2.month)
-		{
-			temp.month = d2.month- temp.month ;
-
-		}
-		else {
-			if (temp.day < d2.day)
-			{
-				temp.day =d2.day- temp.day ;
-			}
-		}
-	}
 	
-	if (temp.year = d2.year)
-	{
-		temp.year = d2.year;
-	}
-	else {
-		if (temp.month > d2.month)
-		{
-			temp.month = temp.month - d2.month;
+		DATA result = *this;
 
-		}
-		else if (temp.month < d2.month) {
+		while (d2.year < result.year ||(d2.year == result.year && d2.month < result.month) ||(d2.year == result.year && d2.month == result.month && d2.day < result.day)) {
+			if (result.day > 1) {
+				result.day--;
+			}
+			else {
+				if (result.month == 1) {
+					result.year--;
+					result.month = 12;
+				}
+				else {
+					result.month--;
+				}
 
-			temp.month = d2.month - temp.month;
-		}
-			if (temp.day > d2.day)
-			{
-				temp.day = temp.day - d2.day;
+				// ”читываем количество дней в мес€це
+				if (result.month == 2) {
+					
+					result.day = 28;
+				}
+				else if (result.month == 4 || result.month == 6 || result.month == 9 || result.month == 11) {
+					
+					result.day = 30;
+				}
+				else {
+					
+					result.day = 31;
+				}
 			}
-			else if (temp.day < d2.day)
-			{
-				temp.day = d2.day - temp.day;
-			}
 		}
-	return temp;
+		return result;
 }
 
 
@@ -306,69 +305,61 @@ DATA& DATA::operator-(DATA d2)
 
 DATA& DATA::operator+=(int n)
 {
-	int NDaysInMonth= 31;
 
-	if (month == 4 || month == 6 || month == 9 || month == 11)
-	{
-		NDaysInMonth = 30;
-	}
-	else if (month == 2)
-	{
-		NDaysInMonth = 28;
-	}
-			
-	if (day + n <= NDaysInMonth)
-	{
-		this->day += n;
-	}
-	else {
+	
+		day += n;
 
-		this->day = 1;
-		if (month == 12)
-		{
-			month = 1;
-			year++;
+		while (day > 31) {
+			if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+				day -= 30;
+				month++;
+			}
+			else if (month == 2) {
+				if (day > 28) {
+					day -= 28;
+					month++;
+				}
+			}
+			else {
+				day -= 31;
+				month++;
+			}
+
+			if (month > 12) {
+				month = 1;
+				year++;
+			}
 		}
-		else
-		{
-			month++;
-		}
-	}
-	return *this;
+
+		return *this;
 }
 
 DATA& DATA::operator-=(int n)
 {
-	int NDaysInMonth = 31;
-
-	if (month == 4 || month == 6 || month == 9 || month == 11)
-	{
-		NDaysInMonth = 30;
-	}
-	else if (month == 2)
-	{
-		NDaysInMonth = 28;
-	}
-
-	if (day + n <= NDaysInMonth)
-	{
-		this->day -= n;
+	if (day > 1) {
+		day--;
+		n--;
 	}
 	else {
-
-		day = 1;
-		if (month == 12)
-		{
-			month = 1;
-			year++;
+		if (month == 1) {
+			month = 12;
+			year--;
 		}
-		else
-		{
-			month++;
+		else {
+			month--;
+		}
+
+		if (month == 2) {
+			day = 28;
+		}
+		else if (month == 4 || month == 6 || month == 9 || month == 11) {
+			day = 30;
+		}
+		else {
+			day = 31;
 		}
 	}
-	return *this;
-	
+return *this;
 }
 
 bool DATA::operator>(DATA& d2)
